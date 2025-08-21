@@ -1,15 +1,12 @@
-/* =========================================================
-   App JS — interacțiuni și micro-UX
-   - Nu s-a modificat conținutul, doar comportamente
-   ========================================================= */
+/* ===== App JS – GitHub Pages + Formspree ===== */
 
-// 1) Anul curent în footer
+// 1) Year in footer
 document.addEventListener('DOMContentLoaded', () => {
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 });
 
-// 2) Smooth scroll pentru link-uri interne (nav, CTA)
+// 2) Smooth scroll for internal links
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click', e=>{
     const id = a.getAttribute('href');
@@ -20,27 +17,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   })
 });
 
-// 3) Mini-form: redirecționează către Google Forms
-//    🔧 Înlocuiește cu linkul tău Google Forms
-const FORMS_URL = 'https://forms.gle/EXEMPLU';
-
-function goToForm(ev){
-  ev.preventDefault();
-  if(!FORMS_URL || FORMS_URL.includes('EXEMPLU')){
-    alert('Te rugăm să adaugi linkul Google Forms în variabila FORMS_URL din app.js.');
-    return false;
-  }
-  window.open(FORMS_URL, '_blank');
-  return false;
-}
-
-// Atașează handler-ul pe formular (fallback în caz că nu este inlined)
-const miniForm = document.getElementById('miniForm');
-if (miniForm && !miniForm.onsubmit) {
-  miniForm.addEventListener('submit', goToForm);
-}
-
-// 4) Reveal on scroll (IntersectionObserver)
+// 3) Reveal on scroll
 (function(){
   const ensureRevealClass = () => {
     const targets = document.querySelectorAll('.reveal, .card, .stat, .slot, .li, h2, .lead, .badge, .hero-wrap');
@@ -54,7 +31,7 @@ if (miniForm && !miniForm.onsubmit) {
   targets.forEach(el=>io.observe(el));
 })();
 
-// 5) Feedback accesibil pe butoane la Enter/Space
+// 4) Keydown feedback on buttons
 document.querySelectorAll('.btn-primary, .btn-ghost').forEach(btn=>{
   btn.addEventListener('keydown', (e)=>{ 
     if(e.key==='Enter' || e.key===' '){ 
@@ -64,7 +41,75 @@ document.querySelectorAll('.btn-primary, .btn-ghost').forEach(btn=>{
   });
 });
 
-// 6) Mică protecție pentru iframe map (opțional, dar non-intruziv)
+// 5) Formspree submit (fără backend)
+//    PAS 1: mergi pe https://formspree.io/ și creează un formular nou cu emailul tău
+//    PAS 2: înlocuiește ID-ul de mai jos (f/XXXXXXXX) cu endpoint-ul tău
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/XXXXXXXX';
+
+const form = document.getElementById('inscriereForm');
+const submitBtn = document.getElementById('submitBtn');
+const alertBox = document.getElementById('formAlert');
+
+function showAlert(type, msg){
+  if(!alertBox) return;
+  alertBox.className = 'alert mini ' + (type === 'success' ? 'success' : 'error');
+  alertBox.textContent = msg;
+  alertBox.style.display = 'block';
+}
+
+if(form){
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+
+    // Validare minimă
+    const fd = new FormData(form);
+    if(!fd.get('nume') || !fd.get('email')){
+      showAlert('error', 'Te rugăm să completezi numele și emailul.');
+      return;
+    }
+
+    // Dezactivează butonul în timpul trimiterii
+    const original = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Se trimite…';
+
+    try{
+      const payload = {
+        nume: fd.get('nume'),
+        email: fd.get('email'),
+        telefon: fd.get('telefon') || '',
+        rol: fd.get('rol') || '',
+        // Poți adăuga câmpuri ascunse în Formspree pentru subject / redirect
+        _subject: 'Nouă înscriere la curs (GitHub Pages)'
+      };
+
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(Object.assign(document.createElement('form'), { elements: [] }))
+      });
+
+      // Observație: unele browsere cer corpul ca FormData real:
+      const data = new FormData();
+      Object.keys(payload).forEach(k => data.append(k, payload[k]));
+      const res2 = await fetch(FORMSPREE_ENDPOINT, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+
+      if(res2.ok){
+        form.reset();
+        showAlert('success', 'Îți mulțumim! Înscrierea a fost trimisă. Verifică emailul pentru confirmare.');
+      } else {
+        showAlert('error', 'Nu am putut trimite formularul. Încearcă din nou sau contactează-ne pe email.');
+      }
+    } catch(err){
+      showAlert('error', 'Eroare de rețea. Te rugăm să încerci din nou.');
+    } finally{
+      submitBtn.disabled = false;
+      submitBtn.textContent = original;
+    }
+  });
+}
+
+// 6) Map iframe fallback tag
 document.querySelectorAll('iframe[loading="lazy"]').forEach(f => {
   f.addEventListener('load', ()=> f.dataset.loaded = '1');
 });
