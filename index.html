@@ -4,7 +4,7 @@
   <!-- =========================================================
        Curs fizic: „Cum construim o relație sănătoasă cu tehnologia pentru copii”
        Orange Digital Center România – 19 septembrie 2025, 09:00–12:00
-       Multi-file version (HTML + CSS + JS) / Temă portocalie modernă + animații
+       GitHub Pages + Formspree (fără backend)
      ========================================================= -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -28,7 +28,7 @@
   <meta name="twitter:image" content="https://raw.githubusercontent.com/TheTechnologyHub/Curs-fizic-Copiii-Tehnologia-Orange-Digital-Center-Adjud/main/Cum%20construim%20o%20relat%CC%A6ie%20sa%CC%86na%CC%86toasa%CC%86%20cu%20tehnologia%20pentru%20copii%20-%20Finant%CC%A6at%20de%20Fundat%CC%A6ia%20Orange.jpg" />
   <meta name="twitter:image:alt" content="Curs: Cum construim o relație sănătoasă cu tehnologia pentru copii – Finanțat de Fundația Orange" />
 
-  <!-- ============== SEO PRO PACK suplimentar ============== -->
+  <!-- SEO suplimentar -->
   <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
   <meta name="googlebot" content="index, follow" />
   <meta property="og:locale" content="ro_RO" />
@@ -38,21 +38,17 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <!-- Favicons (actualizează rutele după ce pui fișierele) -->
+  <!-- Favicons (opțional – actualizează rutele după ce pui fișierele) -->
   <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
   <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#f97316" />
   <meta name="msapplication-TileColor" content="#0a0a0b" />
-  <!-- Preconnect / DNS Prefetch -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-  <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-  <!-- ============== END SEO PRO PACK ============== -->
 
   <!-- Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Styles -->
@@ -78,7 +74,7 @@
       <div>
         <span class="eyebrow" aria-label="Detalii curs">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M7 3v3M17 3v3M3.5 9h17M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" stroke="#ffd7ba" stroke-width="1.5"/></svg>
-          19 septembrie 2025 • 09:00–12:00 • Adjud 
+          19 septembrie 2025 • 09:00–12:00 • Adjud
         </span>
         <h1>Cum construim o relație sănătoasă cu tehnologia pentru copii - Finanțat de Fundația Orange</h1>
         <p class="lead">Curs fizic pentru părinți și cadre didactice: limite care funcționează fără certuri, siguranță online în jocuri & social media, folosirea responsabilă a <em>AI</em> la teme și transformarea timpului de ecran în învățare.</p>
@@ -304,11 +300,13 @@
         </p>
         <p class="mini">Te rugăm să ajungi cu 10 minute înainte de începere.</p>
         <p>
-          <a class="btn-ghost" href="https://www.google.com/maps/search/?api=1&query=Orange+Digital+Center+Bucuresti" target="_blank" rel="noopener">Deschide în Google Maps</a>
+          <!-- Link actualizat către share-ul tău Google -->
+          <a class="btn-ghost" href="https://share.google/JtlB2puHT9bnBvQ2R" target="_blank" rel="noopener">Deschide în Google Maps</a>
         </p>
       </div>
       <div class="card reveal" style="overflow:hidden">
-        <iframe title="Harta către locație" width="100%" height="300" style="border:0;display:block" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Orange+Digital+Center+Bucuresti&output=embed"></iframe>
+        <!-- Notă: dacă linkul de share nu suportă embed, butonul de mai sus rămâne soluția corectă -->
+        <iframe title="Harta către locație" width="100%" height="300" style="border:0;display:block" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://share.google/JtlB2puHT9bnBvQ2R"></iframe>
       </div>
     </div>
   </section>
@@ -320,7 +318,8 @@
         <h2 style="margin-top:0">Rezervă-ți locul</h2>
         <p class="section-lead">Completează formularul de înscriere. Vei primi confirmarea pe email.</p>
         <div class="grid-2">
-          <form id="miniForm" onsubmit="return goToForm(event)">
+          <!-- Formular GitHub Pages + Formspree -->
+          <form id="inscriereForm" novalidate>
             <div style="display:grid;gap:10px">
               <label>
                 <span style="display:block;margin-bottom:6px">Nume și prenume *</span>
@@ -342,8 +341,9 @@
                   <option>Altul</option>
                 </select>
               </label>
-              <button class="btn-primary" type="submit">Deschide formularul complet</button>
-              <p class="mini">* Formularul complet se deschide într-o filă nouă (Google Forms).</p>
+              <button class="btn-primary" type="submit" id="submitBtn">Înscrie-mă</button>
+              <p class="mini">* Vei primi confirmarea pe email.</p>
+              <div id="formAlert" class="alert mini" aria-live="polite" style="display:none"></div>
             </div>
           </form>
 
@@ -502,3 +502,4 @@
   </script>
 </body>
 </html>
+ 
